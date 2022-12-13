@@ -1,10 +1,11 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/shared/auth.guard';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { DataSource } from 'typeorm';
 
 @Controller()
 export class UserController {
-  constructor() {}
+  constructor(private data: DataSource) {}
 
   @Get('login')
   @ApiOperation({ summary: 'Initiate an OAuth to GitHub in order to log in' })

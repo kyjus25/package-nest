@@ -1,21 +1,25 @@
 import { Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/shared/auth.guard';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { from, map, Observable } from 'rxjs';
+import { Package } from 'src/shared/entities/package.entity';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { DataSource, Repository } from 'typeorm';
 
 @Controller('packages')
 @ApiTags('packages')
 export class PackageController {
-  constructor() {}
+  constructor(
+    private data: DataSource,
+  ) {}
 
   @Get('')
   @ApiOperation({ summary: 'Get all packages', description: 'Based on any filtering applied via query parameters.' })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 200,
-    description: 'The found record',
-    type: String,
+    type: Package,
   })
-  public getPackages(): string {
-    return 'Hello World';
+  public getPackages(): Observable<Package[]> {
+    return from(this.data.getRepository(Package).find())
   }
 
   @Post('')
@@ -42,8 +46,8 @@ export class PackageController {
     description: 'The found record',
     type: String,
   })
-  public getFeaturedPackages(): string {
-    return 'Hello World';
+  public getFeaturedPackages(): Observable<Package[]> {
+    return from(this.data.getRepository(Package).find());
   }
 
   @Get('search')

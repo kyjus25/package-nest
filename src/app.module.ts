@@ -5,8 +5,9 @@ import { PackageController } from './controllers/package.controller';
 import { ThemeController } from './controllers/theme.controller';
 import { UpdateController } from './controllers/update.controller';
 import { UserController } from './controllers/user.controller';
-import { AuthGuard } from './shared/auth.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
 import environment from './shared/environment';
+import { Package } from './shared/entities/package.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import environment from './shared/environment';
         username: config.get('DB_USER'),
         password: config.get('DB_PASS'),
         database: config.get('DB_DB'),
-        entities: []
+        entities: [Package]
       }),
       inject: [ConfigService],
     })
