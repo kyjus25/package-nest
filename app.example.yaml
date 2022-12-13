@@ -37,7 +37,7 @@ env_variables:
   # The URI that the OAuth instance should redirect to. Should end in `/api/oauth`
   GH_REDIRECTURI: "https://api.pulsar-edit.dev/api/oauth"
   # The following are Database settings that should be pretty self-explainitory.
-  DB_HOST: "db"
+  DB_HOST: "localhost"
   DB_USER: "root"
   DB_PASS: "password"
   DB_DB: "pulsar"
