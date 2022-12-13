@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import env from './shared/environment';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
+  app.enableShutdownHooks();
 
   const config = new DocumentBuilder()
     .setTitle('Pulsar API')
@@ -16,7 +18,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('', app, document); // Empty quotes to specify URL path
-  
-  await app.listen(3000);
+
+  await app.listen(env().port);
 }
 bootstrap();

@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/shared/auth.guard';
 
 @Controller('packages')
 @ApiTags('packages')
@@ -19,6 +20,7 @@ export class PackageController {
 
   @Post('')
   @ApiOperation({ summary: 'Add a new package', description: 'Determines if it can be published, then goes about doing so' })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -68,6 +70,7 @@ export class PackageController {
 
   @Delete(':packageName')
   @ApiOperation({ summary: 'Delete a package you have ownership of' })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -80,6 +83,7 @@ export class PackageController {
 
   @Post(':packageName/versions')
   @ApiOperation({ summary: 'Allows a new version of a package to be published', description: 'Can also allow a user to rename their application during this process.' })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -103,6 +107,7 @@ export class PackageController {
 
   @Delete(':packageName/versions/:version')
   @ApiOperation({ summary: 'Delete a specific version of your package' })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -115,7 +120,6 @@ export class PackageController {
 
   @Get(':packageName/versions/:version/tarball')
   @ApiOperation({ summary: 'Get the tarball for a specific package version', description: 'Should initiate a download of said tarball on their end.' })
-  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'The found record',
@@ -130,6 +134,7 @@ export class PackageController {
     And saves this data, Originally an undocumented endpoint. \
     The decision to return a 201 was based on how other POST endpoints return, \
     during a successful event.' })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -155,6 +160,7 @@ export class PackageController {
   @Post(':packageName/star')
   @ApiOperation({ summary: 'Submit a new star to a package' })
   @ApiTags('stars')
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -168,6 +174,7 @@ export class PackageController {
   @Delete(':packageName/star')
   @ApiOperation({ summary: 'Remove a star that you have given a package' })
   @ApiTags('stars')
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

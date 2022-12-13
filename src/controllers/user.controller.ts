@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/shared/auth.guard';
 
 @Controller()
 export class UserController {
@@ -8,7 +9,6 @@ export class UserController {
   @Get('login')
   @ApiOperation({ summary: 'Initiate an OAuth to GitHub in order to log in' })
   @ApiTags('auth')
-  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'The found record',
@@ -21,7 +21,6 @@ export class UserController {
   @Get('oauth')
   @ApiOperation({ summary: 'The return from GitHub to login' })
   @ApiTags('auth')
-  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'The found record',
@@ -32,8 +31,9 @@ export class UserController {
   }
 
   @Get('stars')
-  @ApiOperation({ summary: 'All packages the authenticated user has stared' })
+  @ApiOperation({ summary: 'All packages the authenticated user has starred' })
   @ApiTags('stars')
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
@@ -47,6 +47,7 @@ export class UserController {
   @Get('users/:email/stars')
   @ApiOperation({ summary: 'Endpoint that returns another users Star Gazers List' })
   @ApiTags('stars')
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

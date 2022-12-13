@@ -16,4 +16,5 @@ export class UpdateController {
   public getEditorUpdates(): string {
     return 'Hello World';
   }
+  
 }

@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    volumes: 
+      - ./migrations:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    container_name: pulsar_db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    container_name: pulsar_adminer
